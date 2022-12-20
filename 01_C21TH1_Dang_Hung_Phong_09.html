@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHIẾU ĐĂNG KÍ THI</title>
+    <style>
+        body{
+            font-family: sans-serif;
+            font-size: 17px;
+            color: black;
+        }
+        h1{
+            color: red;
+            text-align: center;
+            font-size: 35px;
+            text-shadow: 4px 4px 10px black;
+            margin: 9px;
+        }
+        .row{
+            float: left;
+            width: 100%;
+            padding: 5px 0px;
+        }
+        .boxcenter{
+            width: 40%;
+         margin: 0 auto;
+        }
+        .bgboxcenter{
+            float: left;
+            min-height: 200px;
+            border: 3px #666 solid;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 2px 2px 10px black;
+        }
+        .boxleft{
+            float: left;
+            width: calc(25% - 5%);
+            padding: 6px 0px;
+            margin-left: 5px;
+        }
+        .boxright{
+            float: left;
+            width: 70%;
+            padding: 6px 0px;
+        }
+        .btn{
+            text-align: center;
+        }
+        .button{
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+            color: red;
+            padding: 5px 5px;
+            text-align: center;
+            border-radius: 6px;
+            background-color: p;
+        }
+        .error{
+            margin: 10px 0 0 0;
+            padding: 0;
+            color: red;
+            font-size: 12px;
+            font-style: italic;
+        }
+        input[type='text']{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 3px 0;
+            margin: 0;
+            color: black;
+        }
+        input[type='button']{
+            box-sizing: border-box;
+            border: 2px black solid ;
+            padding: 3px 3;
+            margin: 7%;
+            color: black;
+            background-color: rgb(46, 236, 110);
+        }
+        select{
+            width: 100%;
+            padding: 3px 0;
+            margin: 0;
+            color: black;
+        }
+        .ketqua{
+            font-size: 14px;
+            font-style: italic;
+            /* font-weight: bold; */
+            color: green;
+           border-radius: 70px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="boxcenter">
+            <div class="bgboxcenter">
+                <div class="row"><h1>PHIẾU ĐĂNG KÍ THI</h1></div>
+                <div class="row">
+                    <div class="boxleft">Họ và Tên</div>
+                    <div class="boxright">
+                        <input id="hovaten" type="text" value="" placeholder="Họ và Tên"><span id="errhovaten" class="error" ></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="boxleft">Giới tính</div>
+                    <div class="boxright">
+                        <input type="radio" name="gioitinh" checked="checked">Nam
+                        <input type="radio" name="gioitinh">Nữ
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="boxleft">Ngày sinh</div>
+                    <div class="boxright">
+                        <input id="ngaysinh" type="text" value="" placeholder="mm/dd/yyyy"><span id="errngaysinh" class="error"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="boxleft">Số CMND</div>
+                    <div class="boxright">
+                        <input id="cmnd" type="text" value="" placeholder="Nhập số CMND"><span id="errcmnd" class="error" ></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="boxleft">Môn đăng kí</div>
+                    <div class="boxright">
+                        <select name="" id="mondk">
+                          <option value="">Kĩ Thuật Lập Trình</option>
+                          <option value="">Cơ sở dữ liệu</option>
+                          <option value="">Toán rời rạc</option>
+                          <option value="">Anh văn cơ bản</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="boxleft">Lệ phí</div>
+                    <div class="boxright">
+                        <input id="lephi" type="text" value="" placeholder="Nhập lệ phí"><span id="errlephi" class="error"></span>
+                    </div>
+                </div>
+                <div id="ketqua" class="row ketqua"></div>
+                <div class="row button">
+                    <input id="dangki" class="button" type="button" value="Đăng kí">
+                    <input id="taomoi" class="button" type="button" value="Tạo mới">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var chuoiLoi="(*) Lỗi nhập liệu"
+        var errArray=[1,1,1,1];
+        var objhovaten=document.getElementById("hovaten")
+        console.log(objhovaten);
+        var objngaysinh=document.getElementById("ngaysinh");
+        console.log(objngaysinh);
+        var objcmnd=document.getElementById("cmnd");
+        console.log(objcmnd);
+        var objmondk=document.getElementById("mondk")
+        console.log(objmondk);
+        var objlephi=document.getElementById("lephi")
+        console.log(objlephi);
+        var objdangki=document.getElementById("dangki")
+        var objtaomoi=document.getElementById("taomoi")
+        var objketqua=document.getElementById("ketqua")
+        var listmondks = ['Kĩ Thuật Lập Trình','Cơ sở dữ liệu','Toán rời rạc','Anh văn cơ bản'];
+        function createMondks(listmondks){
+            var listOptions = listmondks.map(function(item, index){
+                return `<option value='${index}'>${item}</option>`
+            });
+            var chuoiOptions = listOptions.join('');
+            console.log(chuoiOptions);
+            objmondk.innerHTML = chuoiOptions;
+        }
+        createMondks(listmondks);
+        function tongMang(arr){
+            var tong=0;
+            for (var i = 0; i < arr.length; i++){
+                tong+=arr[i];
+            }
+            return tong;
+        }
+        objhovaten.onblur = function(){
+            if(this.value==''){
+                errArray[1]=1;
+                document.getElementById("errhovaten").innerHTML=chuoiLoi;
+            }else{
+                errArray[1]=0;
+                document.getElementById("errhovaten").innerHTML="";
+            }
+        };
+        objngaysinh.onblur=function(){
+            var chuoi=this.value;
+            var kt=Date.parse(chuoi);
+            console.log(kt);
+            errArray[2]=0;
+            document.getElementById("errngaysinh").innerHTML="";
+            if(kt=='' || isNaN(kt)){
+                errArray[2]=1;
+                console.log(document.getElementById("errngaysinh"));
+                document.getElementById("errngaysinh").innerHTML=chuoiLoi;
+            }
+            else{
+                errArray[2]=0;
+                document.getElementById("errngaysinh").innerHTML="";
+            }
+        }
+        objcmnd.onblur = function(){
+            if(this.value==''){
+                errArray[0]=1;
+                document.getElementById("errcmnd").innerHTML=chuoiLoi;
+            }else{
+                if(this.value.length==9 || this.value.length==12)
+                {
+                errArray[0]=0;
+                document.getElementById("errcmnd").innerHTML="";}
+                else{
+                errArray[0]=1;
+                document.getElementById("errcmnd").innerHTML=chuoiLoi;
+            }
+            }
+        };
+        objlephi.onblur=function(){
+            var gt=this.value;
+            if(gt=='' || isNaN(gt)){
+                errArray[3]=1;
+                console.log(document.getElementById("errlephi"));
+                document.getElementById("errlephi").innerHTML=chuoiLoi;
+            }
+            else{
+                errArray[3]=0;
+                document.getElementById("errlephi").innerHTML="";
+            }
+        }
+        objdangki.onclick=function(){
+            if(tongMang(errArray)>0){
+                objketqua.innerHTML="<span style='color:red'>Đăng kí thất bại";
+            }else{
+                objketqua.innerHTML=`Chị ${objhovaten.value} đã đăng kí thành công môn học ${objmondk.options[objmondk.selectedIndex].text}`;
+            }
+        }
+        objtaomoi.onclick=function(){
+            var listtext=document.querySelectorAll(`input[type="text"]`);
+            listtext.forEach(element => {
+                element.value='';
+            });
+        }
+    </script>
+</body>
+</html>
+
+
